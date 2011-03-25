@@ -56,7 +56,10 @@ class StepBack
       end
 
       begin
-        x[:undo].call or return false
+        unless x[:undo].call 
+          STDERR.puts "Undo #{@run_stack.size - i} failed."
+          return false
+        end
       rescue Exception => e
         STDERR.puts e
         return false
@@ -78,7 +81,10 @@ protected
       end
 
       begin
-        x[:step].call or return false
+        unless x[:step].call
+          STDERR.puts "Step #{i+1} failed"
+          return false
+        end
       rescue Exception => e
         STDERR.puts e
         return false
